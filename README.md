@@ -1,13 +1,18 @@
 phantomjs
 =========
 
-An NPM wrapper for [PhantomJS](http://phantomjs.org/), headless webkit with JS API.
+An NPM wrapper for [PhantomJS](http://phantomjs.org/) *version 2*, headless webkit with JS API. 
+
+NOTE: phantomjs v2.x is currently under heavy development.   Releases should be considered unstable. 
+
+This is a fork from [Medium/phantomjs](https://github.com/Medium/phantomjs) which beautifully installs phantomjs v1.9.x.
+
 
 Building and Installing
 -----------------------
 
 ```shell
-npm install phantomjs
+npm install phantomjs2
 ```
 
 Or grab the source and
@@ -16,21 +21,13 @@ Or grab the source and
 node ./install.js
 ```
 
-To use a mirror of the phantomjs binaries, set `$PHANTOMJS_CDNURL`,
-default is `https://bitbucket.org/ariya/phantomjs/downloads`
-
-```shell
-PHANTOMJS_CDNURL=http://cnpmjs.org/downloads npm install phantomjs
-```
-
 What this installer is really doing is just grabbing a particular "blessed" (by
 this module) version of Phantom. As new versions of Phantom are released
 and vetted, this module will be updated accordingly.
 
-The package has been set up to fetch and run Phantom for MacOS (darwin),
-Linux based platforms (as identified by nodejs), and -- as of version 0.2.0 --
-Windows (thanks to [Domenic Denicola](https://github.com/domenic)).  If you
-spot any platform weirdnesses, let us know or send a patch.
+The package has been set up to fetch and run Phantom for MacOS (darwin) and
+Linux based platforms (as identified by nodejs), using the pre-built binaries
+from https://github.com/bprodoehl/phantomjs/releases/
 
 Running
 -------
@@ -145,20 +142,19 @@ Contributing
 ------------
 
 Questions, comments, bug reports, and pull requests are all welcome.  Submit them at
-[the project on GitHub](https://github.com/Obvious/phantomjs/).  If you haven't contributed to an
-[Obvious](http://github.com/Obvious/) project before please head over to the
-[Open Source Project](https://github.com/Obvious/open-source#note-to-external-contributors) and fill
-out an OCLA (it should be pretty painless).
+[the project on GitHub](https://github.com/zeevl/phantomjs2/). 
 
 Bug reports that include steps-to-reproduce (including code) are the
 best. Even better, make them in the form of pull requests.
 
-Author
-------
+Authors (original)
+------------------
 
 [Dan Pupius](https://github.com/dpup)
 ([personal website](http://pupius.co.uk)), supported by
 [The Obvious Corporation](http://obvious.com/).
+
+Ported to phantomjs2 by [zeevl](https://github.com/zeevl)
 
 License
 -------

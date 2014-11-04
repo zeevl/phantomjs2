@@ -1,16 +1,17 @@
 {
   "name": "phantomjs",
-  "version": "1.9.12",
+  "version": "2.0.0",
   "keywords": [
     "phantomjs",
+    "phantomjs2",
     "headless",
     "webkit"
   ],
   "description": "Headless WebKit with JS API",
-  "homepage": "https://github.com/Obvious/phantomjs",
+  "homepage": "https://github.com/zeevl/phantomjs2",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Obvious/phantomjs.git"
+    "url": "git://github.com/zeevl/phantomjs2.git"
   },
   "licenses": [
     {
@@ -19,17 +20,9 @@
     }
   ],
   "author": {
-    "name": "Dan Pupius",
-    "email": "dan@obvious.com",
-    "url": "http://pupius.co.uk"
+    "name": "Steve Lamb",
+    "email": "steve@stevelamb.io"
   },
-  "maintainers": [
-    {
-      "name": "Dan Pupius",
-      "email": "dan@obvious.com",
-      "web": "http://pupius.co.uk/"
-    }
-  ],
   "main": "lib/phantomjs",
   "bin": {
     "phantomjs": "./bin/phantomjs"
