@@ -50,7 +50,7 @@ Below is an example of using this package via node.
 ```javascript
 var path = require('path')
 var childProcess = require('child_process')
-var phantomjs = require('phantomjs')
+var phantomjs = require('phantomjs2')
 var binPath = phantomjs.path
 
 var childArgs = [
