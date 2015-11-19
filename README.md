@@ -79,11 +79,16 @@ Deciding Where To Get PhantomJS
 By default, this package will download phantomjs from `https://bitbucket.org/ariya/phantomjs/downloads`.
 This should work fine for most people.
 
-##### Downloading from a custom URL
+## Downloading from a custom URL
 
-If bitbucket is down, or the Great Firewall is blocking bitbucket, you may need to use
-a download mirror. To set a mirror, set npm config property `phantomjs_cdnurl`.
-Default is ``.
+If bitbucket is down, or the Great Firewall is blocking bitbucket, you have a few options:
+
+#### Download from a phantomjs download mirror
+
+To set a mirror, set npm config property `phantomjs_cdnurl`.   The advantage of this
+approach is that it will carry over the proper detection of version and OS, however
+*the mirror must match the structure and naming conventions of
+`https://bitbucket.org/ariya/phantomjs/downloads`.
 
 ```shell
 npm install phantomjs --phantomjs_cdnurl=http://cnpmjs.org/downloads
@@ -95,10 +100,29 @@ Or add property into your `.npmrc` file (https://www.npmjs.org/doc/files/npmrc.h
 phantomjs_cdnurl=http://cnpmjs.org/downloads
 ```
 
-Another option is to use PATH variable `PHANTOMJS_CDNURL`.
+Another option is to use environment variable `PHANTOMJS_CDNURL`.
 ```shell
 PHANTOMJS_CDNURL=http://cnpmjs.org/downloads npm install phantomjs
 ```
+
+#### Or, specify a specific download location.
+
+This is useful to entirely override the phantomjs download locaiton, i.e. if
+you wish to use a custom build.   As of this writing there are lots of
+custom builds for phantomjs2, particularly to get it working on various flavors
+of linux.  (see https://github.com/ariya/phantomjs/issues/12948)
+
+To set a specifc download location, set npm config property `phantomjs_downloadurl`.
+
+```shell
+npm install phantomjs --phantomjs_downloadurl=http://garyzhu.net/notes/phantomjs-centos7.tar
+```
+
+or set the environment variable `PHANTOMJS_DOWNLOADURL`.
+```shell
+PHANTOMJS_DOWNLOADURL=http://garyzhu.net/notes/phantomjs-centos7.tar npm install phantomjs
+```
+
 
 ##### Using PhantomJS from disk
 
