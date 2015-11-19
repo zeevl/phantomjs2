@@ -115,12 +115,12 @@ of linux.  (see https://github.com/ariya/phantomjs/issues/12948)
 To set a specifc download location, set npm config property `phantomjs_downloadurl`.
 
 ```shell
-npm install phantomjs --phantomjs_downloadurl=http://garyzhu.net/notes/phantomjs-centos7.tar
+npm install phantomjs --phantomjs_downloadurl=https://github.com/eugene1g/phantomjs/releases/download/2.0.0-bin/phantomjs-2.0.0-macosx.zip
 ```
 
 or set the environment variable `PHANTOMJS_DOWNLOADURL`.
 ```shell
-PHANTOMJS_DOWNLOADURL=http://garyzhu.net/notes/phantomjs-centos7.tar npm install phantomjs
+PHANTOMJS_DOWNLOADURL=https://github.com/eugene1g/phantomjs/releases/download/2.0.0-bin/phantomjs-2.0.0-macosx.zip npm install phantomjs
 ```
 
 

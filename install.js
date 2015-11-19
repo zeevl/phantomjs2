@@ -16,7 +16,6 @@ var helper = require('./lib/phantomjs')
 var kew = require('kew')
 var mkdirp = require('mkdirp')
 var npmconf = require('npmconf')
-var os = require('os');
 var path = require('path')
 var request = require('request')
 var url = require('url')
@@ -42,7 +41,6 @@ process.env.PATH = helper.cleanPath(originalPath)
 
 var libPath = path.join(__dirname, 'lib')
 var pkgPath = path.join(libPath, 'phantom')
-var downloadUrl = null;
 var phantomPath = null
 var tmpPath = null
 
@@ -280,12 +278,12 @@ function extractDownload(filePath) {
 }
 
 function copyIntoPlace(extractedPath, targetPath) {
-  var binTarget = path.join(targetPath, 'bin');
+  var binTarget = path.join(targetPath, 'bin')
 
-  mkdirp.sync(binTarget);
+  mkdirp.sync(binTarget)
 
   var files = glob.sync(path.join(extractedPath, '**', 'phantomjs?(.exe)'))
-  console.log(files);
+  console.log(files)
 
   if (!files.length) {
     console.log('Could not find extracted file, or too many matches!', files)
@@ -293,7 +291,7 @@ function copyIntoPlace(extractedPath, targetPath) {
   }
 
   for (var i = 0; i < files.length; i++) {
-    var file = files[i];
+    var file = files[i]
 
     if (fs.statSync(file).isFile()) {
       console.log('Copying extracted folder', file, '->', binTarget)
@@ -349,14 +347,15 @@ function tryPhantomjsOnPath() {
  * @return {?string} Get the download URL for phantomjs. May return null if no download url exists.
  */
 function getDownloadUrl() {
-  var downloadUrl = process.env.npm_config_phantomjs_downloadurl || process.env.PHANTOMJS_DOWNLOADURL;
+  var downloadUrl = process.env.npm_config_phantomjs_downloadurl || process.env.PHANTOMJS_DOWNLOADURL
   if (downloadUrl)
-    return downloadUrl;
+    return downloadUrl
 
   var cdnUrl = process.env.npm_config_phantomjs_cdnurl ||
       process.env.PHANTOMJS_CDNURL ||
       'https://bitbucket.org/ariya/phantomjs/downloads'
-  var downloadUrl = cdnUrl + '/phantomjs-' + helper.version + '-'
+
+  downloadUrl = cdnUrl + '/phantomjs-' + helper.version + '-'
 
   if (process.platform === 'linux' && process.arch === 'x64') {
     downloadUrl += 'linux-x86_64.tar.bz2'
@@ -369,6 +368,7 @@ function getDownloadUrl() {
   } else {
     return null
   }
+
   return downloadUrl
 }
 

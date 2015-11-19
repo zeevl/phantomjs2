@@ -40,21 +40,6 @@ exports.testPhantomExitCode = function (test) {
   })
 }
 
-
-exports.testBinFile = function (test) {
-  test.expect(1)
-
-  var binPath = process.platform === 'win32' ? 
-      path.join(__dirname, '..', 'lib', 'phantom', 'phantomjs.exe') :
-      path.join(__dirname, '..', 'bin', 'phantomjs')
-
-  childProcess.execFile(binPath, ['--version'], function (err, stdout, stderr) {
-    test.equal(phantomjs.version, stdout.trim(), 'Version should be match')
-    test.done()
-  })
-}
-
-
 exports.testCleanPath = function (test) {
   test.expect(5)
   test.equal('/Users/dan/bin', phantomjs.cleanPath('/Users/dan/bin:./bin'))
