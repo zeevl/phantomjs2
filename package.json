@@ -13,12 +13,7 @@
     "type": "git",
     "url": "git://github.com/zeevl/phantomjs2.git"
   },
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
-  ],
+  "license": "Apache-2.0",
   "author": {
     "name": "Steve Lamb",
     "email": "steve@stevelamb.io"
@@ -29,21 +24,20 @@
   },
   "scripts": {
     "install": "node install.js",
-    "test": "nodeunit --reporter=minimal test/tests.js"
+    "test": "nodeunit --reporter=minimal test/tests.js && eslint install.js"
   },
   "dependencies": {
     "adm-zip": "0.4.4",
-    "kew": "0.7.0",
-    "ncp": "~2.0.0",
-    "npmconf": "2.0.9",
-    "mkdirp": "0.5.0",
+    "kew": "0.4.0",
+    "fs-extra": "~0.23.1",
+    "npmconf": "2.1.1",
     "progress": "1.1.8",
     "request": "2.42.0",
     "request-progress": "0.3.1",
-    "rimraf": "~2.2.8",
     "which": "~1.0.5"
   },
   "devDependencies": {
+    "eslint": "1.5.1",
     "nodeunit": "0.9.0"
   }
 }

@@ -1,12 +1,14 @@
 phantomjs
 =========
 
-An NPM wrapper for [PhantomJS](http://phantomjs.org/) *version 2*, headless webkit with JS API. 
+An NPM wrapper for [PhantomJS](http://phantomjs.org/) *version 2*, headless webkit with JS API.
 
-NOTE: phantomjs v2.x is currently under heavy development.   Releases should be considered unstable. 
+NOTE: phantomjs v2.x is currently under heavy development.   Releases should be considered unstable.
 
 This is a fork from [Medium/phantomjs](https://github.com/Medium/phantomjs) which beautifully installs phantomjs v1.9.x.
 
+
+[![Build Status](https://travis-ci.org/Medium/phantomjs.svg?branch=master)](https://travis-ci.org/Medium/phantomjs)
 
 Building and Installing
 -----------------------
@@ -71,6 +73,40 @@ The major and minor number tracks the version of PhantomJS that will be
 installed. The patch number is incremented when there is either an installer
 update or a patch build of the phantom binary.
 
+Deciding Where To Get PhantomJS
+-------------------------------
+
+By default, this package will download phantomjs from `https://bitbucket.org/ariya/phantomjs/downloads`.
+This should work fine for most people.
+
+##### Downloading from a custom URL
+
+If bitbucket is down, or the Great Firewall is blocking bitbucket, you may need to use
+a download mirror. To set a mirror, set npm config property `phantomjs_cdnurl`.
+Default is ``.
+
+```shell
+npm install phantomjs --phantomjs_cdnurl=http://cnpmjs.org/downloads
+```
+
+Or add property into your `.npmrc` file (https://www.npmjs.org/doc/files/npmrc.html)
+
+```
+phantomjs_cdnurl=http://cnpmjs.org/downloads
+```
+
+Another option is to use PATH variable `PHANTOMJS_CDNURL`.
+```shell
+PHANTOMJS_CDNURL=http://cnpmjs.org/downloads npm install phantomjs
+```
+
+##### Using PhantomJS from disk
+
+If you plan to install phantomjs many times on a single machine, you can
+install the `phantomjs` binary on PATH. The installer will automatically detect
+and use that for non-global installs.
+
+
 A Note on PhantomJS
 -------------------
 
@@ -99,9 +135,27 @@ An extra note on Linux usage, from the PhantomJS download page:
 Troubleshooting
 ---------------
 
+##### Installation fails with `spawn ENOENT`
+
+This is NPM's way of telling you that it was not able to start a process. It usually means:
+
+- `node` is not on your PATH, or otherwise not correctly installed.
+- `tar` is not on your PATH. This package expects `tar` on your PATH on Linux-based platforms.
+
+Check your specific error message for more information.
+
+##### Installation fails with `Error: EPERM` or `operation not permitted` or `permission denied`
+
+This error means that NPM was not able to install phantomjs to the file system. There are three
+major reasons why this could happen:
+
+- You don't have write access to the installation directory.
+- The permissions in the NPM cache got messed up, and you need to run `npm cache clean` to fix them.
+- You have over-zealous anti-virus software installed, and it's blocking file system writes.
+
 ##### Installation fails with `Error: read ECONNRESET` or `Error: connect ETIMEDOUT`
 
-This error means that something went wront with your internet connection, and the installer
+This error means that something went wrong with your internet connection, and the installer
 was not able to download the PhantomJS binary for your platform. Please try again.
 
 ##### I tried again, but I get `ECONNRESET` or `ETIMEDOUT` consistently.
@@ -115,7 +169,7 @@ env variable described above.
 
 ##### I am behind a corporate proxy that uses self-signed SSL certificates to intercept encrypted traffic.
 
-You can tell NPM and the PhantomJS installer to skip validation of ssl keys with NPM's 
+You can tell NPM and the PhantomJS installer to skip validation of ssl keys with NPM's
 [strict-ssl](https://www.npmjs.org/doc/misc/npm-config.html#strict-ssl) setting:
 
 ```
@@ -135,14 +189,14 @@ use the manually-installed binaries.
 Some Linux distros tried to rename `node` to `nodejs` due to a package
 conflict. This is a non-portable change, and we do not try to support this. The
 [official documentation](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu-mint-elementary-os)
-recommends that you symlink `node` to `nodejs` on those platforms, or many
-NodeJS programs won't work properly.
+recommends that you run `apt-get install nodejs-legacy` to symlink `node` to `nodejs`
+on those platforms, or many NodeJS programs won't work properly.
 
 Contributing
 ------------
 
 Questions, comments, bug reports, and pull requests are all welcome.  Submit them at
-[the project on GitHub](https://github.com/zeevl/phantomjs2/). 
+[the project on GitHub](https://github.com/zeevl/phantomjs2/).
 
 Bug reports that include steps-to-reproduce (including code) are the
 best. Even better, make them in the form of pull requests.
