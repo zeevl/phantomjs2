@@ -18,6 +18,7 @@ var mkdirp = require('mkdirp')
 var npmconf = require('npmconf')
 var path = require('path')
 var request = require('request')
+var os = require('os')
 var url = require('url')
 var which = require('which')
 
@@ -40,7 +41,7 @@ process.on('exit', function () {
 process.env.PATH = helper.cleanPath(originalPath)
 
 var libPath = path.join(__dirname, 'lib')
-var pkgPath = path.join(libPath, 'phantom')
+var pkgPath = path.join(libPath, 'phantom', 'bin')
 var phantomPath = null
 var tmpPath = null
 
@@ -73,7 +74,7 @@ kew.resolve(true)
   .then(function () {
     var location = process.platform === 'win32' ?
         path.join(pkgPath, 'phantomjs.exe') :
-        path.join(pkgPath, 'bin' ,'phantomjs')
+        path.join(pkgPath, 'phantomjs')
 
     try {
       // Ensure executable is executable by all users
@@ -278,9 +279,7 @@ function extractDownload(filePath) {
 }
 
 function copyIntoPlace(extractedPath, targetPath) {
-  var binTarget = path.join(targetPath, 'bin')
-
-  mkdirp.sync(binTarget)
+  mkdirp.sync(targetPath)
 
   var files = glob.sync(path.join(extractedPath, '**', 'phantomjs?(.exe)'))
   console.log(files)
@@ -294,8 +293,8 @@ function copyIntoPlace(extractedPath, targetPath) {
     var file = files[i]
 
     if (fs.statSync(file).isFile()) {
-      console.log('Copying extracted folder', file, '->', binTarget)
-      var dest = path.join(binTarget, path.basename(file))
+      console.log('Copying extracted folder', file, '->', targetPath)
+      var dest = path.join(targetPath, path.basename(file))
       if (fs.existsSync(dest))
         fs.removeSync(dest)
 
@@ -363,6 +362,12 @@ function getDownloadUrl() {
     downloadUrl += 'linux-i686.tar.bz2'
   } else if (process.platform === 'darwin' || process.platform === 'openbsd' || process.platform === 'freebsd') {
     downloadUrl += 'macosx.zip'
+
+    // workaround for os-x yosemite, where ariya's build is broken
+    // see https://github.com/ariya/phantomjs/issues/12928
+    if (parseInt(os.release()) == 14)
+      downloadUrl = 'https://github.com/eugene1g/phantomjs/releases/download/2.0.0-bin/phantomjs-2.0.0-macosx.zip'
+
   } else if (process.platform === 'win32') {
     downloadUrl += 'windows.zip'
   } else {

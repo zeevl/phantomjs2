@@ -20,7 +20,7 @@
   },
   "main": "lib/phantomjs",
   "bin": {
-    "phantomjs": "./bin/phantomjs"
+    "phantomjs": "./lib/phantomjs/bin/phantomjs"
   },
   "scripts": {
     "install": "node install.js",
@@ -31,6 +31,7 @@
     "fs-extra": "~0.23.1",
     "glob": "^6.0.1",
     "kew": "0.4.0",
+    "mkdirp": "^0.5.1",
     "npmconf": "2.1.1",
     "progress": "1.1.8",
     "request": "2.42.0",
