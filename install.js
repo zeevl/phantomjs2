@@ -11,8 +11,10 @@ var progress = require('progress')
 var AdmZip = require('adm-zip')
 var cp = require('child_process')
 var fs = require('fs-extra')
+var glob = require('glob')
 var helper = require('./lib/phantomjs')
 var kew = require('kew')
+var mkdirp = require('mkdirp')
 var npmconf = require('npmconf')
 var os = require('os');
 var path = require('path')
@@ -20,27 +22,6 @@ var request = require('request')
 var url = require('url')
 var which = require('which')
 
-
-function getPhantomBinaryUrl() {
-  var binaryUrl = process.env.PHANTOMJS_BINARYURL;
-  if (binaryUrl)
-    return binaryUrl;
-
-  var cdnUrl = process.env.PHANTOMJS_CDNURL || 'https://bitbucket.org/ariya/phantomjs/downloads/'
-  binaryUrl = cdnUrl + 'phantomjs-' + helper.version + '-'
-
-  if (process.platform === 'linux' && process.arch === 'x64') {
-    binaryUrl += 'linux-x86_64.zip'
-  } else if (process.platform === 'darwin' || process.platform === 'openbsd' || process.platform === 'freebsd') {
-    binaryUrl += 'macosx.zip'
-  } else {
-    console.error('Unexpected platform or architecture:', process.platform, process.arch)
-    console.error('Set the path to use as PHANTOMJS_BINARYURL to override.');
-    exit(1)
-  }
-
-  return binaryUrl;
-}
 
 var originalPath = process.env.PATH
 
@@ -298,23 +279,32 @@ function extractDownload(filePath) {
   return deferred.promise
 }
 
-
 function copyIntoPlace(extractedPath, targetPath) {
-  console.log('Removing', targetPath)
-  return kew.nfcall(fs.remove, targetPath).then(function () {
-    // Look for the extracted directory, so we can rename it.
-    var files = fs.readdirSync(extractedPath)
-    for (var i = 0; i < files.length; i++) {
-      var file = path.join(extractedPath, files[i])
-      if (fs.statSync(file).isDirectory() && file.indexOf(helper.version) != -1) {
-        console.log('Copying extracted folder', file, '->', targetPath)
-        return kew.nfcall(fs.move, file, targetPath)
-      }
-    }
+  var binTarget = path.join(targetPath, 'bin');
 
-    console.log('Could not find extracted file', files)
-    throw new Error('Could not find extracted file')
-  })
+  mkdirp.sync(binTarget);
+
+  var files = glob.sync(path.join(extractedPath, '**', 'phantomjs?(.exe)'))
+  console.log(files);
+
+  if (!files.length) {
+    console.log('Could not find extracted file, or too many matches!', files)
+    throw new Error('Could not find extracted file, or too many matches!')
+  }
+
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+
+    if (fs.statSync(file).isFile()) {
+      console.log('Copying extracted folder', file, '->', binTarget)
+      var dest = path.join(binTarget, path.basename(file))
+      if (fs.existsSync(dest))
+        fs.removeSync(dest)
+
+      return kew.nfcall(fs.move, file, dest)
+    }
+  }
+
 }
 
 /**
@@ -353,10 +343,16 @@ function tryPhantomjsOnPath() {
   })
 }
 
+
+
 /**
  * @return {?string} Get the download URL for phantomjs. May return null if no download url exists.
  */
 function getDownloadUrl() {
+  var downloadUrl = process.env.npm_config_phantomjs_downloadurl || process.env.PHANTOMJS_DOWNLOADURL;
+  if (downloadUrl)
+    return downloadUrl;
+
   var cdnUrl = process.env.npm_config_phantomjs_cdnurl ||
       process.env.PHANTOMJS_CDNURL ||
       'https://bitbucket.org/ariya/phantomjs/downloads'

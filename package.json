@@ -28,8 +28,9 @@
   },
   "dependencies": {
     "adm-zip": "0.4.4",
-    "kew": "0.4.0",
     "fs-extra": "~0.23.1",
+    "glob": "^6.0.1",
+    "kew": "0.4.0",
     "npmconf": "2.1.1",
     "progress": "1.1.8",
     "request": "2.42.0",
