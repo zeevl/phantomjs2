@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "adm-zip": "0.4.4",
-    "kew": "0.4.0",
-    "ncp": "~1.0.1",
+    "kew": "0.7.0",
+    "ncp": "~2.0.0",
     "npmconf": "2.0.9",
     "mkdirp": "0.5.0",
     "progress": "1.1.8",
