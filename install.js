@@ -16,6 +16,7 @@ var kew = require('kew')
 var mkdirp = require('mkdirp')
 var ncp = require('ncp')
 var npmconf = require('npmconf')
+var os = require('os');
 var path = require('path')
 var request = require('request')
 var rimraf = require('rimraf')
@@ -23,8 +24,27 @@ var url = require('url')
 var util = require('util')
 var which = require('which')
 
-var cdnUrl = process.env.PHANTOMJS_CDNURL || 'https://github.com/bprodoehl/phantomjs/releases/download/'
-var downloadUrl = cdnUrl + helper.version + '/phantomjs-' + helper.version + '-'
+
+function getPhantomBinaryUrl() {
+  var binaryUrl = process.env.PHANTOMJS_BINARYURL;
+  if (binaryUrl)
+    return binaryUrl;
+
+  var cdnUrl = process.env.PHANTOMJS_CDNURL || 'https://bitbucket.org/ariya/phantomjs/downloads/'
+  binaryUrl = cdnUrl + 'phantomjs-' + helper.version + '-'
+
+  if (process.platform === 'linux' && process.arch === 'x64') {
+    binaryUrl += 'linux-x86_64.zip'
+  } else if (process.platform === 'darwin' || process.platform === 'openbsd' || process.platform === 'freebsd') {
+    binaryUrl += 'macosx.zip'
+  } else {
+    console.error('Unexpected platform or architecture:', process.platform, process.arch)
+    console.error('Set the path to use as PHANTOMJS_BINARYURL to override.');
+    exit(1)
+  }
+
+  return binaryUrl;
+}
 
 var originalPath = process.env.PATH
 
@@ -45,6 +65,7 @@ process.env.PATH = helper.cleanPath(originalPath)
 
 var libPath = path.join(__dirname, 'lib')
 var pkgPath = path.join(libPath, 'phantom')
+var downloadUrl = null;
 var phantomPath = null
 var tmpPath = null
 
@@ -105,14 +126,7 @@ whichDeferred.promise
     tmpPath = findSuitableTempDirectory(conf)
 
     // Can't use a global version so start a download.
-    if (process.platform === 'linux' && process.arch === 'x64') {
-      downloadUrl += 'linux-x86_64.zip'
-    } else if (process.platform === 'darwin' || process.platform === 'openbsd' || process.platform === 'freebsd') {
-      downloadUrl += 'macosx.zip'
-    } else {
-      console.error('Unexpected platform or architecture:', process.platform, process.arch)
-      exit(1)
-    }
+    downloadUrl = getPhantomBinaryUrl();
 
     var fileName = downloadUrl.split('/').pop()
     var downloadedFile = path.join(tmpPath, fileName)
