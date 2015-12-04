@@ -18,9 +18,9 @@
     "name": "Steve Lamb",
     "email": "steve@stevelamb.io"
   },
-  "main": "lib/phantomjs",
+  "main": "lib/phantom",
   "bin": {
-    "phantomjs": "./lib/phantomjs/bin/phantomjs"
+    "phantomjs": "./lib/phantom/bin/phantomjs"
   },
   "scripts": {
     "install": "node install.js",
