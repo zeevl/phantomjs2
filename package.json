@@ -20,7 +20,7 @@
   },
   "main": "lib/phantomjs",
   "bin": {
-    "phantomjs": "./lib/phantomjs/bin/phantomjs"
+    "phantomjs": "./bin/phantomjs"
   },
   "scripts": {
     "install": "node install.js",
