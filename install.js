@@ -365,7 +365,7 @@ function getDownloadUrl() {
 
     // workaround for os-x yosemite, where ariya's build is broken
     // see https://github.com/ariya/phantomjs/issues/12928
-    if (parseInt(os.release()) == 14)
+    if (parseInt(os.release()) >= 14)
       downloadUrl = 'https://github.com/eugene1g/phantomjs/releases/download/2.0.0-bin/phantomjs-2.0.0-macosx.zip'
 
   } else if (process.platform === 'win32') {
