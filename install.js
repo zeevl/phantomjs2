@@ -352,22 +352,14 @@ function getDownloadUrl() {
 
   var cdnUrl = process.env.npm_config_phantomjs_cdnurl ||
       process.env.PHANTOMJS_CDNURL ||
-      'https://bitbucket.org/ariya/phantomjs/downloads'
+      'https://github.com/Vitallium/phantomjs/releases/download'
 
-  downloadUrl = cdnUrl + '/phantomjs-' + helper.version + '-'
+  downloadUrl = cdnUrl + '/' + helper.version + '/phantomjs-' + helper.version + '-'
 
   if (process.platform === 'linux' && process.arch === 'x64') {
-    downloadUrl += 'linux-x86_64.tar.bz2'
-  } else if (process.platform === 'linux' && process.arch == 'ia32') {
-    downloadUrl += 'linux-i686.tar.bz2'
+    downloadUrl += 'linux-x86_64.zip'
   } else if (process.platform === 'darwin' || process.platform === 'openbsd' || process.platform === 'freebsd') {
     downloadUrl += 'macosx.zip'
-
-    // workaround for os-x yosemite, where ariya's build is broken
-    // see https://github.com/ariya/phantomjs/issues/12928
-    if (parseInt(os.release()) >= 14)
-      downloadUrl = 'https://github.com/eugene1g/phantomjs/releases/download/2.0.0-bin/phantomjs-2.0.0-macosx.zip'
-
   } else if (process.platform === 'win32') {
     downloadUrl += 'windows.zip'
   } else {
