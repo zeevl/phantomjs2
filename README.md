@@ -1,5 +1,13 @@
+
+# Deprecated!  
+
+PhantomJS is no longer maintained, so neither is this.  Use [Headless chrome](https://developers.google.com/web/updates/2017/06/headless-karma-mocha-chai)
+instead!
+
+
 phantomjs
 =========
+
 
 An NPM wrapper for [PhantomJS](http://phantomjs.org/) *version 2*, headless webkit with JS API.
 
